@@ -11,15 +11,12 @@
 # Parts from 112  website 
 import random
 
+# From 112  website 
 class PlayingCard(object):
     numberNames = [None, "Ace", "2", "3", "4", "5", "6", "7",
                    "8", "9", "10", "Jack", "Queen", "King"]
     suitNames = ["Clubs", "Diamonds", "Hearts", "Spades"]
-    CLUBS = 0
-    DIAMONDS = 1
-    HEARTS = 2
-    SPADES = 3
-    
+    # From 112  website 
     @staticmethod
     def getDeck(shuffled=True):
         deck = [ ]
@@ -43,7 +40,7 @@ class PlayingCard(object):
         if gameDeck != []:
             return gameDeck.pop()
                 
-
+    # From 112  website 
     def __init__(self, number, suit):
         # number is 1 for Ace, 2...10,
         #           11 for Jack, 12 for Queen, 13 for King
@@ -51,18 +48,18 @@ class PlayingCard(object):
         #         2 for Hearts, 3 for Spades
         self.number = number
         self.suit = suit
-
+    # From 112  website 
     def __repr__(self):
         return ("%s of %s" %
                 (PlayingCard.numberNames[self.number],
                  PlayingCard.suitNames[self.suit]))
-
+    # From 112  website 
     def getHashables(self):
         return (self.number, self.suit) # return a tuple of hashables
-
+    # From 112  website 
     def __hash__(self):
         return hash(self.getHashables())
-
+    # From 112  website 
     def __eq__(self, other):
         return (isinstance(other, PlayingCard) and
                 (self.number == other.number) and
@@ -77,10 +74,17 @@ class PlayingCard(object):
 
 
 
+#######################################
+# Human Player
+#######################################
 
 
 
 
+
+
+########################################
+# Table display 
 ########################################
 from tkinter import *
 
@@ -97,7 +101,15 @@ def init(data):
     data.ePile = [PlayingCard.dealCard(data.gameDeck)]
     data.sPile = [PlayingCard.dealCard(data.gameDeck)]
     data.wPile = [PlayingCard.dealCard(data.gameDeck)]
+    data.nePile = []
+    data.sePile = []
+    data.swPile = []
+    data.nwPile = []
+    data.round = 0
+    data.xyPlayerCards = [] #list containing tuples of the (x,y) coords of cards
+    data.xyTableCards = [] #(dir letter, x, y) coords of cards on table
 
+# From 112  website 
 def loadPlayingCardImages(data):
     cards = 53 # cards 1-52, back
     data.cardImages = [ ]
@@ -106,7 +118,7 @@ def loadPlayingCardImages(data):
         suit = "cdhsx"[card//13]
         filename = "playing-card-gifs/%s%d.gif" % (suit, rank)
         data.cardImages.append(PhotoImage(file=filename))
-
+# From 112  website 
 def getPlayingCardImage(data, rank, suitName):
     suitName = suitName[0].lower() # only care about first letter
     suitNames = "cdhsx"
@@ -115,14 +127,10 @@ def getPlayingCardImage(data, rank, suitName):
     suit = suitNames.index(suitName)
     return data.cardImages[13*suit + rank - 1]
 
-
-def onMousePress(self, event):
+def onMouseReleased(self, event):
     pass
 
-def onMouseRelease(self, event):
-    pass
-
-def onMouseMove(self, event):
+def onMouseMoved(self, event):
     pass
     
 def mousePressed(event, data):
@@ -147,39 +155,60 @@ def redrawAll(canvas, data):
         gameY = data.height//2
         canvas.create_text(gameX, gameY, fill="black", 
             text="To start the game press 'p'", font=" Arial 30 bold")
-    if  data.game:
+    if  data.game: # game state
         canvas.create_rectangle(0, 0, data.width, data.height,
             fill="#076324")
-        if data.gameDeck != []:
+        if data.gameDeck != []: #stockpile image
             image = getPlayingCardImage(data, 1, "Xtras")
             canvas.create_image(data.width//2, data.height//2, image=image)
-        nCard = data.nPile[-1]
+        
+        nCard = data.nPile[-1] #display card north of stock
         suit = getCardSuit(nCard)
         rank = getCardRank(nCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2, data.height//2 - 100,
             image=img)
+        data.xyTableCards.append(("n", data.width//2, data.height//2 - 100))
             
-        eCard = data.ePile[-1]
+        eCard = data.ePile[-1] # east of stock
         suit = getCardSuit(eCard)
         rank = getCardRank(eCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 + 100, data.height//2,
             image=img)
+        data.xyTableCards.append(("e", data.width//2 + 100, data.height//2))
             
-        sCard = data.sPile[-1]
+        sCard = data.sPile[-1] # south of stock
         suit = getCardSuit(sCard)
         rank = getCardRank(sCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2, data.height//2 + 100,
             image=img)
-            
-        wCard = data.wPile[-1]
+        data.xyTableCards.append(("s", data.width//2, data.height//2 + 100))
+        
+        wCard = data.wPile[-1] # west of stock 
         suit = getCardSuit(wCard)
         rank = getCardRank(wCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 - 100, data.height//2,
             image=img)
+        data.xyTableCards.append(("w", data.width//2 - 100, data.height//2))
+        
+        yplace = data.height- 100 
+        for i in range(len(data.playerHand)): #display cards in player's hand
+            suit = getCardSuit(data.playerHand[i])
+            rank = getCardRank(data.playerHand[i])
+            margin = data.width//len(data.playerHand) 
+            img = getPlayingCardImage(data, rank, suit)
+            canvas.create_image(margin + (i*margin), yplace, image=img)
+            data.xyPlayerCards.append((margin + (i*margin), yplace))
+            
+        yplace = 100
+        margin = data.width//len(data.compHand)
+        for i in range(len(data.compHand)): # display backs of cards for comp hand
+            img = getPlayingCardImage(data, 1, "Xtras")
+            canvas.create_image(margin + (i*margin), yplace, image=img)
+            
         
 def getCardSuit(card):
     cardS = None
@@ -199,6 +228,8 @@ def getCardRank(card):
                 cardR = 12
             if cardR == "King":
                 cardR = 13
+            if cardR == "Ace":
+                cardR = 1
     return int(cardR)
    
 
@@ -217,6 +248,14 @@ def run(width=300, height=300):
     def mousePressedWrapper(event, canvas, data):
         mousePressed(event, data)
         redrawAllWrapper(canvas, data)
+    
+    # def onMouseMovedWrapper(event, canvas, data):
+    #     onMouseMoved(event, data)
+    #     redrawAllWrapper(canvas, data)
+    #     
+    # def onMouseReleasedWrapper(event, canvas, data):
+    #     onMouseReleased(event, data)
+    #     redrawAllWrapper(canvas, data)
 
     def keyPressedWrapper(event, canvas, data):
         keyPressed(event, data)
@@ -244,6 +283,13 @@ def run(width=300, height=300):
                             mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
                             keyPressedWrapper(event, canvas, data))
+    root.bind("<Double-Button-1>", lambda event:pass
+                            
+    # root.bind("<B1-Motion>", lambda event:
+    #                         onMouseMovedWrapper(event, canvas, data))
+    # root.bind("<ButtomRelease-1>", lambda event:
+    #                         onMouseReleasedWrapper(event, canvas, data))
+                            
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed
