@@ -75,10 +75,10 @@ class PlayingCard(object):
 
 
 #######################################
-# Human Player
+# Human Player or do I even need a human player?????
 #######################################
 
-
+#def cardMoving
 
 
 
@@ -94,21 +94,57 @@ def init(data):
     data.rules = False
     data.game = False
     data.gameOver = False
+    data.first = random.choice(["Comp", "Human"]) #who's turn is first 
+    if data.first == "Comp":
+        data.compTurn = True 
+        data.humTurn = False
+    else:
+        data.humTurn = True
+        data.compTurn = False
     data.gameDeck = PlayingCard.getDeck()
     data.playerHand = PlayingCard.dealHand(data.gameDeck)
     data.compHand = PlayingCard.dealHand(data.gameDeck)
-    data.nPile = [PlayingCard.dealCard(data.gameDeck)]
+    data.nPile = [PlayingCard.dealCard(data.gameDeck)] #cards to display on north deck
+    data.nXY = [(data.width//2, data.height//2 - 100)] # (x,y) coords of cards on pile 
     data.ePile = [PlayingCard.dealCard(data.gameDeck)]
+    data.eXY = [(data.width//2 + 100, data.height//2)]
     data.sPile = [PlayingCard.dealCard(data.gameDeck)]
+    data.sXY = [(data.width//2, data.height//2 + 100)]
     data.wPile = [PlayingCard.dealCard(data.gameDeck)]
-    data.nePile = []
-    data.sePile = []
-    data.swPile = []
-    data.nwPile = []
+    data.wXY = [(data.width//2 - 100, data.height//2)]
+    
+    # data.nePile = []
+    # data.neXY = [(,)]
+    # data.sePile = []
+    # data.seXY = [(,)]
+    # data.swPile = []
+    # data.swXY = [(,)]
+    # data.nwPile = []
+    # data.nwXY = [(,)]
     data.round = 0
     data.xyPlayerCards = [] #list containing tuples of the (x,y) coords of cards
-    data.xyTableCards = [] #(dir letter, x, y) coords of cards on table
-
+    data.margin = data.width//10
+    data.cardWidth = 71
+    if len(data.playerHand) > 10: 
+        cards = len(data.playerHand)
+        yplace = data.height - 60
+        num = 0 
+        index = 0
+        while cards > 0: 
+            data.xyPlayerCards.append((data.margin + (i*cardWidth), yplace))
+            cards -= 1
+            num += 1
+            index += 1
+            if cards == 10:
+                yplace -= 100
+                num = 0
+    else:
+        yplace = data.height - 60
+        for i in range(len(data.playerHand)):
+            data.xyPlayerCards.append((data.margin + (i*data.cardWidth), yplace))
+    data.dragImg = {"x": 0, "y": 0, "card": None}
+    print(data.xyPlayerCards)
+    
 # From 112  website 
 def loadPlayingCardImages(data):
     cards = 53 # cards 1-52, back
@@ -127,13 +163,16 @@ def getPlayingCardImage(data, rank, suitName):
     suit = suitNames.index(suitName)
     return data.cardImages[13*suit + rank - 1]
 
-def onMouseReleased(self, event):
+def onMouseReleased(event, data):
     pass
 
-def onMouseMoved(self, event):
+def onMouseMoved(event, data):
     pass
     
 def mousePressed(event, data):
+    # for i in range(len(data.xyPlayerCards)):
+    #     x, y = data.xyPlayerCards[i]
+    #     if 
     pass
 
 def keyPressed(event, data):
@@ -145,7 +184,7 @@ def timerFired(data):
     pass
 
 def redrawAll(canvas, data):
-    if data.home:
+    if data.home: #home screen 
         canvas.create_rectangle(0, 0, data.width, data.height, fill="white")
         welX = data.width//2
         welY = data.height//4
@@ -168,7 +207,7 @@ def redrawAll(canvas, data):
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2, data.height//2 - 100,
             image=img)
-        data.xyTableCards.append(("n", data.width//2, data.height//2 - 100))
+        
             
         eCard = data.ePile[-1] # east of stock
         suit = getCardSuit(eCard)
@@ -176,7 +215,7 @@ def redrawAll(canvas, data):
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 + 100, data.height//2,
             image=img)
-        data.xyTableCards.append(("e", data.width//2 + 100, data.height//2))
+       
             
         sCard = data.sPile[-1] # south of stock
         suit = getCardSuit(sCard)
@@ -184,7 +223,7 @@ def redrawAll(canvas, data):
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2, data.height//2 + 100,
             image=img)
-        data.xyTableCards.append(("s", data.width//2, data.height//2 + 100))
+        
         
         wCard = data.wPile[-1] # west of stock 
         suit = getCardSuit(wCard)
@@ -192,23 +231,56 @@ def redrawAll(canvas, data):
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 - 100, data.height//2,
             image=img)
-        data.xyTableCards.append(("w", data.width//2 - 100, data.height//2))
         
-        yplace = data.height- 100 
-        for i in range(len(data.playerHand)): #display cards in player's hand
-            suit = getCardSuit(data.playerHand[i])
-            rank = getCardRank(data.playerHand[i])
-            margin = data.width//len(data.playerHand) 
-            img = getPlayingCardImage(data, rank, suit)
-            canvas.create_image(margin + (i*margin), yplace, image=img)
-            data.xyPlayerCards.append((margin + (i*margin), yplace))
-            
-        yplace = 100
-        margin = data.width//len(data.compHand)
-        for i in range(len(data.compHand)): # display backs of cards for comp hand
-            img = getPlayingCardImage(data, 1, "Xtras")
-            canvas.create_image(margin + (i*margin), yplace, image=img)
-            
+        #display human cards 
+        if len(data.playerHand) > 10: 
+        #dispays 10 cards per line so the cards don't run off the board
+            cards = len(data.playerHand)
+            yplace = data.height - 60
+            num = 0 
+            index = 0
+            while cards > 0: #display cards in player's hand
+                suit = getCardSuit(data.playerHand[index])
+                rank = getCardRank(data.playerHand[index])
+                img = getPlayingCardImage(data, rank, suit)
+                canvas.create_image(data.margin + (num*data.cardWidth), yplace, image=img)
+                cards -= 1
+                num += 1
+                index += 1
+                if cards == 10:
+                    yplace -= 100
+                    num = 0
+        else:
+            yplace = data.height - 60
+            for i in range (len(data.playerHand)):
+                suit = getCardSuit(data.playerHand[i])
+                rank = getCardRank(data.playerHand[i])
+                img = getPlayingCardImage(data, rank, suit)
+                canvas.create_image(data.margin + (i*data.cardWidth), yplace, image=img)
+        
+        #display computer cards backs     
+        if len(data.compHand) > 10:
+            cards = len(data.compHand)
+            yplace = 60
+            num = 0
+            while cards > 0:
+                img = getPlayingCardImage(data, 1, "Xtras")
+                canvas.create_image(data.margin + (num*data.cardWidth), yplace,
+                    image=img)
+                cards -= 1
+                num += 1
+                if cards == 10:
+                    yplace += 100
+                    num = 0
+        else:
+            yplace = 60
+            for i in range (len(data.compHand)):
+                img = getPlayingCardImage(data, 1, "Xtras")
+                canvas.create_image(data.margin + (i*data.cardWidth), yplace,
+                    image=img)
+        # if data.compTurn == True:
+        #     canvas.create
+        
         
 def getCardSuit(card):
     cardS = None
@@ -249,13 +321,13 @@ def run(width=300, height=300):
         mousePressed(event, data)
         redrawAllWrapper(canvas, data)
     
-    # def onMouseMovedWrapper(event, canvas, data):
-    #     onMouseMoved(event, data)
-    #     redrawAllWrapper(canvas, data)
-    #     
-    # def onMouseReleasedWrapper(event, canvas, data):
-    #     onMouseReleased(event, data)
-    #     redrawAllWrapper(canvas, data)
+    def onMouseMovedWrapper(event, canvas, data):
+        onMouseMoved(event, data)
+        redrawAllWrapper(canvas, data)
+        
+    def onMouseReleasedWrapper(event, canvas, data):
+        onMouseReleased(event, data)
+        redrawAllWrapper(canvas, data)
 
     def keyPressedWrapper(event, canvas, data):
         keyPressed(event, data)
@@ -283,16 +355,15 @@ def run(width=300, height=300):
                             mousePressedWrapper(event, canvas, data))
     root.bind("<Key>", lambda event:
                             keyPressedWrapper(event, canvas, data))
-    root.bind("<Double-Button-1>", lambda event:pass
                             
-    # root.bind("<B1-Motion>", lambda event:
-    #                         onMouseMovedWrapper(event, canvas, data))
-    # root.bind("<ButtomRelease-1>", lambda event:
-    #                         onMouseReleasedWrapper(event, canvas, data))
+    root.bind("<B1-Motion>", lambda event:
+                            onMouseMovedWrapper(event, canvas, data))
+    root.bind("<ButtonRelease-1>", lambda event:
+                            onMouseReleasedWrapper(event, canvas, data))
                             
     timerFiredWrapper(canvas, data)
     # and launch the app
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(700, 700)
+run(900, 800)
