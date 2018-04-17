@@ -113,17 +113,19 @@ def init(data):
     data.wPile = [PlayingCard.dealCard(data.gameDeck)]
     data.wXY = [(data.width//2 - 100, data.height//2)]
     
-    # data.nePile = []
-    # data.neXY = [(,)]
-    # data.sePile = []
-    # data.seXY = [(,)]
-    # data.swPile = []
-    # data.swXY = [(,)]
-    # data.nwPile = []
-    # data.nwXY = [(,)]
+    data.nePile = []
+    data.neXY = [(data.width//2 -100,data.height//2 + 100)] #position of ne pile
+    data.sePile = []
+    data.seXY = [(data.width//2 +100, data.height//2 +100)]
+    data.swPile = []
+    data.swXY = [(data.width//2 -100, data.height//2 + 100)]
+    data.nwPile = []
+    data.nwXY = [(data.width//2 -100, data.height//2 -100)]
+
     data.round = 0
     data.xyPlayerCards = [] #list containing tuples of the (x,y) coords of cards
     data.margin = data.width//10
+    data.cardHeight = 96
     data.cardWidth = 71
     if len(data.playerHand) > 10: 
         cards = len(data.playerHand)
@@ -143,7 +145,12 @@ def init(data):
         for i in range(len(data.playerHand)):
             data.xyPlayerCards.append((data.margin + (i*data.cardWidth), yplace))
     data.dragImg = {"x": 0, "y": 0, "card": None}
-    print(data.xyPlayerCards)
+    data.cardW = data.cardWidth//2 # half card w
+    data.cardH = data.cardHeight//2 # half card h
+    data.origIndex = None
+    data.oldX = None
+    data.oldY = None
+    data.card = None
     
 # From 112  website 
 def loadPlayingCardImages(data):
@@ -163,22 +170,106 @@ def getPlayingCardImage(data, rank, suitName):
     suit = suitNames.index(suitName)
     return data.cardImages[13*suit + rank - 1]
 
-def onMouseReleased(event, data):
-    pass
+def getCardSuit(card): #take a card and returns the suit name of the card
+    cardS = None
+    for suit in ["Hearts", "Clubs", "Diamonds", "Spades"]:
+        if suit in str(card):
+            cardS = suit
+    return cardS
 
-def onMouseMoved(event, data):
+def getCardRank(card): # takes a card and returns it's rank 
+    cardR = None
+    for rank in ["Ace", "2", "3", "4", "5", "6", "7",
+                   "8", "9", "10", "Jack", "Queen", "King"]:
+        if rank in str(card):
+            cardR = rank
+            if cardR == "Jack":
+                cardR = 11
+            if cardR == "Queen":
+                cardR = 12
+            if cardR == "King":
+                cardR = 13
+            if cardR == "Ace":
+                cardR = 1
+    return int(cardR)
+
+def drawCard(x, y, card):
+    suit = getCardSuit(card)
+    rank = getCardRank(card)
+    img = getPlayingCardImage(data, rank, suit)
+    canvas.create_image(x, y, image=img)
+
+def validMove():
     pass
+def onMouseReleased(event, data):
+    nX, nY = data.nXY[0]
+    sX, sY = data.sXY[0]
+    eX, eY = data.eXY[0]
+    wX, wY = data.wXY[0]
+    # has to be on a pile and a valid move; MAKE VALID MOVE FUNCTION
+    if (nX-data.cardW <= event.x <= nX+data.cardW and
+            nY-data.cardH <= event.y <= nY+data.cardH and validMove()):
+        #add card to the pile 
+        pass
+                
+    elif (sX-data.cardW <= event.x <= sX+data.cardW and
+            sY-data.cardH <= event.y <= sY+data.cardH and validMove()):
+        #add card to pile
+        pass
+                
+    elif (wX-data.cardW <= event.x <= wX+data.cardW and
+            wY-data.cardH <= event.y <= wY+data.cardH and validMove()):
+        #add card to pile
+        pass
+    elif (eX-data.cardW <= event.x <= eX+data.cardW and
+            eY-data.cardH <= event.y <= eY+data.cardH and validMove()):
+        #add card to pile 
+        pass
+    else: #add card back into player's hand 
+        data.playerHand.insert(data.origIndex, data.card)
+        data.xyPlayerCards.insert(data.origIndex, (data.oldX, data.oldY))
+        data.dragImg["card"] = None
+        data.dragImg["x"] = 0
+        data.dragImg["y"] = 0
+
+
+def onMouseMoved(event, canvas, data):
+    print(data.dragImg)
+    '''Handle dragging of an object'''
+    # compute mouse movement 
+    deltaX = event.x - data.dragImg["x"]
+    deltaY = event.y - data.dragImg["y"]
+    # move the object by deltaX and deltaY
+    canvas.move(data.dragImg["card"], deltaX, deltaY)
+    # record the new position
+    data.dragImg["x"] = event.x
+    data.dragImg["y"] = event.y
     
 def mousePressed(event, data):
-    # for i in range(len(data.xyPlayerCards)):
-    #     x, y = data.xyPlayerCards[i]
-    #     if 
-    pass
-
+    for i in range(len(data.xyPlayerCards)):
+        x, y = data.xyPlayerCards[i]
+        
+        if (x-data.cardW <= event.x <= x+data.cardW and
+                y-data.cardH <= event.y <= y+data.cardH):
+            data.origIndex = i 
+            data.oldX = x 
+            data.oldY = y
+            data.card = data.playerHand.pop(i)
+            print(card)
+            data.dragImg["card"] = card
+            data.dragImg["x"] = event.x
+            data.dragImg["y"] = event.y
+            drawCard(event.x, event.y, card)
+            
 def keyPressed(event, data):
     if event.keysym == "p":
         data.home = False
         data.game = True
+        data.rules = False
+    if event.keysym == "r":
+        data.home = False
+        data.game = False
+        data.rules = True
 
 def timerFired(data):
     pass
@@ -194,6 +285,9 @@ def redrawAll(canvas, data):
         gameY = data.height//2
         canvas.create_text(gameX, gameY, fill="black", 
             text="To start the game press 'p'", font=" Arial 30 bold")
+    if data.rules: # rules screen 
+    
+        
     if  data.game: # game state
         canvas.create_rectangle(0, 0, data.width, data.height,
             fill="#076324")
@@ -282,28 +376,7 @@ def redrawAll(canvas, data):
         #     canvas.create
         
         
-def getCardSuit(card):
-    cardS = None
-    for suit in ["Hearts", "Clubs", "Diamonds", "Spades"]:
-        if suit in str(card):
-            cardS = suit
-    return cardS
-def getCardRank(card):
-    cardR = None
-    for rank in ["Ace", "2", "3", "4", "5", "6", "7",
-                   "8", "9", "10", "Jack", "Queen", "King"]:
-        if rank in str(card):
-            cardR = rank
-            if cardR == "Jack":
-                cardR = 11
-            if cardR == "Queen":
-                cardR = 12
-            if cardR == "King":
-                cardR = 13
-            if cardR == "Ace":
-                cardR = 1
-    return int(cardR)
-   
+
 
 ####################################
 # use the run function as-is
@@ -322,7 +395,7 @@ def run(width=300, height=300):
         redrawAllWrapper(canvas, data)
     
     def onMouseMovedWrapper(event, canvas, data):
-        onMouseMoved(event, data)
+        onMouseMoved(event, canvas, data)
         redrawAllWrapper(canvas, data)
         
     def onMouseReleasedWrapper(event, canvas, data):
