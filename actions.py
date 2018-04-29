@@ -4,9 +4,9 @@
 # All return True or False for whether the move or play is a valid one 
 #########################
 from DeckDeal import *
-def validPlay(data, pile):
-    suit = getCardSuit(data.selectedCard)
-    rank = getCardRank(data.selectedCard)
+def validPlay(pile, card, data):
+    suit = getCardSuit(card)
+    rank = getCardRank(card)
     reds = ["Hearts", "Diamonds"]
     blacks = ["Clubs", "Spades"]
     playColor = None

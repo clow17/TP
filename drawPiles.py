@@ -19,7 +19,7 @@ def drawPiles(canvas, data):
             suit = getCardSuit(nCard)
             rank = getCardRank(nCard)
             img = getPlayingCardImage(data, rank, suit)
-            canvas.create_image(data.width//2, data.height//2 - 110,
+            canvas.create_image(data.width//2, data.height//2 - 120,
                 image=img)
         
     if data.ePile != []: #display card east of stock @ 5
@@ -33,7 +33,7 @@ def drawPiles(canvas, data):
             suit = getCardSuit(eCard)
             rank = getCardRank(eCard)
             img = getPlayingCardImage(data, rank, suit)
-            canvas.create_image(data.width//2 + 110, data.height//2,
+            canvas.create_image(data.width//2 + 120, data.height//2,
                 image=img)
        
     if data.sPile != []: #display card south of stock @ 7
@@ -47,7 +47,7 @@ def drawPiles(canvas, data):
             suit = getCardSuit(sCard)
             rank = getCardRank(sCard)
             img = getPlayingCardImage(data, rank, suit)
-            canvas.create_image(data.width//2, data.height//2 + 110,
+            canvas.create_image(data.width//2, data.height//2 + 120,
                 image=img)
         
     if data.wPile != []: #display card west of stock @ 4
@@ -61,7 +61,7 @@ def drawPiles(canvas, data):
             suit = getCardSuit(wCard)
             rank = getCardRank(wCard)
             img = getPlayingCardImage(data, rank, suit)
-            canvas.create_image(data.width//2 - 110, data.height//2,
+            canvas.create_image(data.width//2 - 120, data.height//2,
                 image=img)
         
     if data.nwPile != []: # display north west of stock pile @ 1
@@ -76,7 +76,7 @@ def drawPiles(canvas, data):
             rank = getCardRank(data.nwPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 - 100, data.height//2
-                -110,image=img)
+                -120,image=img)
                 
     if data.nePile != []: # north east of stock @ 3
         neCard = data.nePile[0]
@@ -90,11 +90,11 @@ def drawPiles(canvas, data):
             rank = getCardRank(data.nePile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 + 100, data.height//2 -
-                110, image=img)
+                120, image=img)
     if data.swPile != []: # south west of stock @ 6
         swCard = data.swPile[0]
-        suit = getCardSuit(neCard)
-        rank = getCardRank(neCard)
+        suit = getCardSuit(swCard)
+        rank = getCardRank(swCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 - 100, data.height//2 + 100,
             image=img)
@@ -103,12 +103,12 @@ def drawPiles(canvas, data):
             rank = getCardRank(data.swPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 - 100, data.height//2 + 
-                110, image=img)
+                120, image=img)
                 
     if data.sePile != []: # south east of stock @ 8
         seCard = data.sePile[0]
-        suit = getCardSuit(neCard)
-        rank = getCardRank(neCard)
+        suit = getCardSuit(seCard)
+        rank = getCardRank(seCard)
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 + 100, data.height//2 + 100,
             image=img)
@@ -117,4 +117,4 @@ def drawPiles(canvas, data):
             rank = getCardRank(data.sePile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 + 100, data.height//2 +
-                110, image=img)
+                120, image=img)
