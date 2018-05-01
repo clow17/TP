@@ -4,22 +4,11 @@ from DeckDeal import *
 from actions import *
 from drawPiles import *
 ###############################
-#Notes about current version
-# when you run the program a window pops up and asks you for an action and then errors and says
-# drawPiles isn't defined, if you exit that window and other one pops up won't have that error 
-# and the second window the picture won't pop up until after you've inputted a turn 
-# at that point it will either conjure the spinning wheel of death or it just will not 
-# prompt you for anything
-# IN SHORT SHIT DON'T WORK SORRY
 
 #######################################
 # COMPUTER PLAYER
 #######################################
 
-
-
-#######################################
-# Human Player or do I even need a human player?????
 #######################################
 # From 112  website 
 def loadPlayingCardImages(data):
@@ -42,9 +31,9 @@ def getPlayingCardImage(data, rank, suitName):
 def humanTurn(action, data):        
     if action == "play": #play a card from hand onto table piles
         # asks which card you want to place down
-        card = int(input("Type in the number for the card you want to put in. From top left to bottom right."))
+        card = int(input("Type in the number for the card you want to put in. From top left to bottom right. Starting from 1.\n"))
         # asks where you want to put that card
-        pile = int(input("Which pile would you like to play your selected card on?\n1 2 3\n4   5\n6 7 8"))
+        pile = int(input("Which pile would you like to play your selected card on?\n1 2 3\n4   5\n6 7 8\n"))
         
         numCards = 0
         if data.humTurn:
@@ -52,25 +41,25 @@ def humanTurn(action, data):
         if data.compTurn:
             numCards = len(data.playerHand)
             
-        while 1 < card > numCards: #makes sure card input is valid
+        while card-1 < 0 and card-1 > numCards: #makes sure card input is valid
             print("Invalid card choice")
-            card = int(input("Type in the number for the card you want to put in. From top left to bottom right.")) 
+            card = int(input("Type in the number for the card you want to put in. From top left to bottom right. Starting from 1.\n")) 
         xy = None
         if data.humTurn: # selects a card and it's x,y coords
-            xy = data.xyTurnCards[card]
-            card = data.playerHand[card]
-        if data.compTurn:
-            xy = data.xyTurnCards[card]
-            card = data.playerHand[card]
-            
+            xy = data.xyTurnCards[card-1]
+            card = data.playerHand[card-1]
+        else:
+            xy = data.xyTurnCards[card-1]
+            card = data.compHand[card-1]
+        print(card)
         while pile not in [1,2,3,4,5,6,7,8]:
             print("Invalid pile inputted")
-            pile = int(input("Which pile would you like to play your selected card on?\n1 2 3\n4   5\n6 7 8"))
+            pile = int(input("Which pile would you like to play your selected card on?\n1 2 3\n4   5\n6 7 8\n"))
         rank = getCardRank(card)
         if (pile == 1 or pile == 3 or pile == 6 or pile == 8) and rank == 13:
             # runs this code if the card you select is a king and you're 
             # trying to move it to a corner
-            if placeKing(data, pile) == False:
+            if placeKing(data, pile, card, xy) == False:
                 print("The pile you selected is invalid. Either you are trying to put a card that is not a king in the corners or there is already a king there.")
             else:
                 print("begin valid play of move king")
@@ -110,7 +99,7 @@ def humanTurn(action, data):
                     print(data.xyTurnCards)
         else: #just regular move, not a king move
             if validPlay(pile, card, data) == False:
-                print("That's not a valid move man.")
+                print("That's not a valid move.")
             else:
                 print("begin valid play not a king")
                 print(data.xyTurnCards)
@@ -147,6 +136,39 @@ def humanTurn(action, data):
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
                     print(data.xyTurnCards)
+                if pile == 1:
+                    data.nwPile.append(card)
+                    if data.humTurn:
+                        data.playerHand.remove(card)
+                    else:
+                        data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+                    print(data.xyTurnCards)
+                if pile == 3:
+                    data.nePile.append(card)
+                    if data.humTurn:
+                        data.playerHand.remove(card)
+                    else:
+                        data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+                    print(data.xyTurnCards)
+                if pile == 6:
+                    data.swPile.append(card)
+                    if data.humTurn:
+                        data.playerHand.remove(card)
+                    else:
+                        data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+                    print(data.xyTurnCards)
+                if pile == 8:
+                    data.sePile.append(card)
+                    if data.humTurn:
+                        data.playerHand.remove(card)
+                    else:
+                        data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+                    print(data.xyTurnCards)
+                
                     
     if action == "move": #move one deck on top of another deck
         deckTop = int(input("Which deck do you want to move? \n1 2 3\n4   5\n6 7 8\n"))
@@ -315,10 +337,22 @@ def humanTurn(action, data):
         print()
         if data.humTurn:
             data.playerRound += 1
+            print("player round added:" + str(data.playerRound))
         if data.compTurn:
             data.compRound += 1
+            print("comp round added:" + str(data.compRound))
+        if "hum" in data.curTurn:
+            data.curTurn = "comp/2"
+            print("Current turn switched to comp/player 2")
+        if "comp" in data.curTurn:
+            data.curTurn = "hum/1"
+            print("Current turn switched to human/player 1")
+        print("before: " + str(data.humTurn))
+        print("before: " + str(data.comptTurn))
         data.humTurn = not data.humTurn
         data.compTurn = not data.compTurn
+        print("after: " + str(data.humTurn))
+        print("after: " + str(data.comptTurn))
         print("Turns have been changed")
         getTurnCoords(data) #change xyTurnCard coords to the ones on the next person
         print(data.xyTurnCards)
@@ -330,21 +364,37 @@ from tkinter import *
 
 def init(data):
     loadPlayingCardImages(data) # always load images in init!
+    resetGame(data)
     data.home = True
     data.rules = False
     data.game = False
     data.gameOver = False
     data.winner = None
+    data.cardW = data.cardWidth//2 # half card w
+    data.cardH = data.cardHeight//2 # half card h
+    
+def resetGame(data):
+    data.home = False
+    data.rules = False
+    data.game = True
+    data.gameOver = False
+    data.winner = None
     data.first = random.choice(["Comp", "Human"]) #who's turn is first 
     if data.first == "Comp":
-        data.compTurn = True 
+        data.compTurn = True
+        data.curTurn = "comp/2"
+        data.prevTurn = "comp/2"
         data.humTurn = False
     else:
         data.humTurn = True
+        data.curTurn = "hum/1"
+        data.prevTurn = "hum/1"
         data.compTurn = False
     data.gameDeck = PlayingCard.getDeck()
     data.playerHand = PlayingCard.dealHand(data.gameDeck)
     data.compHand = PlayingCard.dealHand(data.gameDeck)
+    print("player:" + str(data.playerHand))
+    print("comp: " + str(data.compHand))
     data.nPile = [PlayingCard.dealCard(data.gameDeck)] #cards to display on north deck
     data.ePile = [PlayingCard.dealCard(data.gameDeck)]   
     data.sPile = [PlayingCard.dealCard(data.gameDeck)]   
@@ -353,7 +403,6 @@ def init(data):
     data.sePile = []   
     data.swPile = []   
     data.nwPile = []
-   
     data.playerRound = 0
     data.compRound = 0
     data.xyTurnCards = [] #list containing tuples of the (x,y) coords of cards of the player whose turn it is
@@ -396,14 +445,8 @@ def init(data):
             yplace = data.height - 60
             for i in range(len(data.compHand)):
                 data.xyTurnCards.append((data.margin + (i*data.cardWidth), yplace))
-                
     
-    data.cardW = data.cardWidth//2 # half card w
-    data.cardH = data.cardHeight//2 # half card h
     
-    # data.selectedXY = None
-    # data.selectedCard = None
-
 def getTurnCoords(data): 
 #updates a list containing the position of the cards depending on whose turn it is
 #function needs to be called every time it changes turns
@@ -466,16 +509,17 @@ def mousePressed(event, canvas, data):
     #         print(data.selectedCard)
             
 def keyPressed(event, data):
-    if event.keysym == "p":
+    if event.keysym == "p": # enter game mode
         print("p was pressed")
         data.home = False
         data.game = True
         data.rules = False
-    if event.keysym == "h":
+    if event.keysym == "h": # enter rules screen
         data.home = False
         data.game = False
         data.rules = True
-    # if event.keysym == "a": #reset game play again
+    if event.keysym == "z": #reset game play again
+        resetGame(data)
     # if space bar hit start who's ever turn it is
     # put input parts of turn in this loop
     # to make another move press space again 
@@ -504,22 +548,32 @@ def keyPressed(event, data):
             print("Invalid input")
             action = input("What do you want to do? \nTo play a card enter, 'play'. \nTo move a pile on the table enter, 'move'. \nTo knock and end your turn enter, 'knock'.\n")
             action = action.lower()
-            
+        if data.compRound != 0 and (data.curTurn != data.prevTurn): 
+        #after first round you get delt a single card every round @ begin
+            data.prevTurn = data.curTurn
+            addCard = PlayingCard.dealCard(data.gameDeck)
+            print("card has been added to comp hand/player2")
+            data.compHand.append(addCard)
+        if data.playerRound != 0 and (data.curTurn != data.prevTurn):
+            data.prevTurn = data.curTurn
+            addCard = PlayingCard.dealCard(data.gameDeck)
+            print("card has been added to player hand/player1")
+            data.playerHand.append(addCard)
         if data.compTurn: # who's ever turn 
-            if data.compRound != 0: 
-            #after first round you get delt a single card every round @ begin
-                addCard = PlayingCard.dealCard(data.gameDeck)
-                data.compHand.append(addCard)
             humanTurn(action, data)
-        if data.humTurn:
-            if data.playerRound != 0:
-                addCard = PlayingCard.dealCard(data.gameDeck)
-                data.playerHand.append(addCard)
+        else: 
             humanTurn(action, data)
-    if event.keysym == "k": # check if display works for different player's cards
-        data.humTurn = not data.humTurn
-        data.compTurn = not data.compTurn
-    
+        
+        print("north: " + str(data.nPile))
+        print("east: " + str(data.ePile))
+        print("south: " + str(data.sPile))
+        print("west: " + str(data.wPile))
+        print("north west: " + str(data.nwPile))
+        print("north east: " + str(data.nePile))
+        print("south west: " + str(data.swPile))
+        print("south east: " + str(data.sePile))
+        print("play hand: " + str(data.playerHand))
+        print("comp hand: " + str(data.compHand))
     ###run turns if turns are different store old turn
 
 def timerFired(data):
@@ -621,8 +675,8 @@ def redrawAll(canvas, data):
                 num = 0 
                 index = 0
                 while cards > 0: #display cards in player 2/comp hand
-                    suit = getCardSuit(data.playerHand[index])
-                    rank = getCardRank(data.playerHand[index])
+                    suit = getCardSuit(data.compHand[index])
+                    rank = getCardRank(data.compHand[index])
                     img = getPlayingCardImage(data, rank, suit)
                     canvas.create_image(data.margin + (num*data.cardWidth), 
                                 yplace, image=img)
@@ -678,8 +732,17 @@ def redrawAll(canvas, data):
    
     if data.gameOver: # prints the winner 
         print("The winner is: " + data.winner)
-        print("To play again press 'a'")
-        return 
+        ans = input("Would you like to play again? yes or no?")
+        ans = ans.lower()
+        answers = ["no", "yes"]
+        while ans not in answers:
+            print("Please stick to yes or no.")
+            ans = input("Would you like to play again? yes or no?")
+            ans = ans.lower()
+        if ans == "yes":
+            resetGame(data)
+        else:
+            return 
 ####################################
 # use the run function as-is
 ####################################

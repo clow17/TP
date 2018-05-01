@@ -7,6 +7,8 @@ from DeckDeal import *
 def validPlay(pile, card, data):
     suit = getCardSuit(card)
     rank = getCardRank(card)
+    print("suit:" + str(suit))
+    print("rank:" + str(rank))
     reds = ["Hearts", "Diamonds"]
     blacks = ["Clubs", "Spades"]
     playColor = None
@@ -15,107 +17,254 @@ def validPlay(pile, card, data):
     else: 
         playColor = "black"
     if pile == 2:
+        if data.nPile == []:
+            return True
         deckSuit = getCardSuit(data.nPile[-1])
         deckRank = getCardRank(data.nPile[-1])
+        print("Deck suit:" + str(deckSuit))
+        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
+            print("failed on same color 2222")
             return False
         else:
             if deckRank - 1 != rank:
+                print("failed on card rank being one below deck rank 2222")
                 return False
             else:
                 return True
     elif pile == 4:
+        if data.wPile == []:
+            return True
         deckSuit = getCardSuit(data.wPile[-1])
         deckRank = getCardRank(data.wPile[-1])
+        print("Deck suit:" + str(deckSuit))
+        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
+            print("failed on same color 4444")
             return False
         else:
             if deckRank - 1 != rank:
+                print("failed on card rank being one below deck rank 4444")
                 return False
             else:
                 return True
     elif pile == 5:
+        if data.ePile == []:
+            return True
         deckSuit = getCardSuit(data.ePile[-1])
         deckRank = getCardRank(data.ePile[-1])
+        print("Deck suit:" + str(deckSuit))
+        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
+            print("failed on same color 55555")
             return False
         else:
             if deckRank - 1 != rank:
+                print("failed on card rank being one below deck rank 5555")
                 return False
             else:
                 return True
         
-    else: #pile == 7
+    elif pile == 7:
+        if data.sPile == []:
+            return True
         deckSuit = getCardSuit(data.sPile[-1])
         deckRank = getCardRank(data.sPile[-1])
+        print("Deck suit:" + str(deckSuit))
+        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
+            print("failed on same color 777777")
             return False
         else:
             if deckRank - 1 != rank:
+                print("failed on card rank being one below deck rank 7777")
                 return False
             else:
                 return True
-
-def placeKing(data, pile):
-    if "King" not in data.selectedCard:
+    elif pile == 1:
+        if data.nwPile == []:
+            return False
+        else:
+            deckSuit = getCardSuit(data.nwPile[-1])
+            deckRank = getCardRank(data.nwPile[-1])
+            print("Deck suit:" + str(deckSuit))
+            print("deck rank:" + str(deckRank))
+            deckColor = None
+            if deckSuit in reds:
+                deckColor = "red"
+            else: 
+                deckColor = "black"
+            if deckColor == playColor:
+                print("failed on same color 1111")
+                return False
+            else:
+                if deckRank - 1 != rank:
+                    print("failed on card rank being one below deck rank 11111")
+                    return False
+                else:
+                    return True
+    elif pile == 3:
+        if data.nePile == []:
+            return False
+        else:
+            deckSuit = getCardSuit(data.nePile[-1])
+            deckRank = getCardRank(data.nePile[-1])
+            print("Deck suit:" + str(deckSuit))
+            print("deck rank:" + str(deckRank))
+            deckColor = None
+            if deckSuit in reds:
+                deckColor = "red"
+            else: 
+                deckColor = "black"
+            if deckColor == playColor:
+                print("failed on same color 33333")
+                return False
+            else:
+                if deckRank - 1 != rank:
+                    print("failed on card rank being one below deck rank 3333")
+                    return False
+                else:
+                    return True
+    elif pile == 6:
+        if data.swPile == []:
+            return False
+        else:
+            deckSuit = getCardSuit(data.swPile[-1])
+            deckRank = getCardRank(data.swPile[-1])
+            print("Deck suit:" + str(deckSuit))
+            print("deck rank:" + str(deckRank))
+            deckColor = None
+            if deckSuit in reds:
+                deckColor = "red"
+            else: 
+                deckColor = "black"
+            if deckColor == playColor:
+                print("failed on same color 66666")
+                return False
+            else:
+                if deckRank - 1 != rank:
+                    print("failed on card rank being one below deck rank 6666")
+                    return False
+                else:
+                    return True
+    else: # pile == 8
+        if data.sePile == []:
+            return False
+        else:
+            deckSuit = getCardSuit(data.sePile[-1])
+            deckRank = getCardRank(data.sePile[-1])
+            print("Deck suit:" + str(deckSuit))
+            print("deck rank:" + str(deckRank))
+            deckColor = None
+            if deckSuit in reds:
+                deckColor = "red"
+            else: 
+                deckColor = "black"
+            if deckColor == playColor:
+                print("failed on same color 8888")
+                return False
+            else:
+                if deckRank - 1 != rank:
+                    print("failed on card rank being one below deck rank 888")
+                    return False
+                else:
+                    return True
+    
+def placeKing(data, pile, card, xy):
+    if "King" not in str(card):
         return False
     else:
-        if pile == 1:
-            if data.nwPile != []:
-                return False
+    
+        if data.humTurn:
+            if pile == 1:
+                if data.nwPile != []:
+                    return False
+                else:
+                    return True
+                    data.nwPile.append(card)
+                    data.playerHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+            elif pile == 3:
+                if data.nePile != []:
+                    return False
+                else:
+                    return True
+                    data.nePile.append(card)
+                    data.playerHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+            elif pile == 6:
+                if data.swPile != []:
+                    return False
+                else:
+                    return True
+                    data.swPile.append(card)
+                    data.playerHand.remove(card)
+                    data.xyTurnCards.remove(xy)
             else:
-                return True
-                data.nwPile.append(data.selectedCard)
-                data.playerHand.remove(data.selectedCard)
-                data.xyPlayerCards.remove(data.selectedXY)
-        elif pile == 3:
-            if data.nePile != []:
-                return False
-            else:
-                return True
-                data.nePile.append(data.selectedCard)
-                data.playerHand.remove(data.selectedCard)
-                data.xyPlayerCards.remove(data.selectedXY)
-        elif pile == 6:
-            if data.swPile != []:
-                return False
-            else:
-                return True
-                data.swPile.append(data.selectedCard)
-                data.playerHand.remove(data.selectedCard)
-                data.xyPlayerCards.remove(data.selectedXY)
+                if data.sePile != []:
+                    return False
+                else:
+                    return True
+                    data.sePile.append(card)
+                    data.playerHand.remove(card)
+                    data.xyTurnCards.remove(xy)
         else:
-            if data.sePile != []:
-                return False
+            if pile == 1:
+                if data.nwPile != []:
+                    return False
+                else:
+                    return True
+                    data.nwPile.append(card)
+                    data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+            elif pile == 3:
+                if data.nePile != []:
+                    return False
+                else:
+                    return True
+                    data.nePile.append(card)
+                    data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
+            elif pile == 6:
+                if data.swPile != []:
+                    return False
+                else:
+                    return True
+                    data.swPile.append(card)
+                    data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
             else:
-                return True
-                data.sePile.append(data.selectedCard)
-                data.playerHand.remove(data.selectedCard)
-                data.xyPlayerCards.remove(data.selectedXY)
+                if data.sePile != []:
+                    return False
+                else:
+                    return True
+                    data.sePile.append(card)
+                    data.compHand.remove(card)
+                    data.xyTurnCards.remove(xy)
 
 def validMove(data, pileMove, pilePut): 
 #checks if moving one pile on top of another is legals
-    if 1 < pileMove > 8 or 1< pilePut > 8 or pileMove == pilePut:
+    if 0 > pileMove or pileMove > 8 or 0 > pilePut or pilePut > 8 or pileMove == pilePut:
         print("Not a valid pile input.")
         return False
         

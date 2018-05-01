@@ -16,8 +16,8 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2, data.height//2 -100,
             image=img)
         for i in range(1, len(data.nPile)):
-            suit = getCardSuit(nCard)
-            rank = getCardRank(nCard)
+            suit = getCardSuit(data.nPile[i])
+            rank = getCardRank(data.nPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2, data.height//2 - 120,
                 image=img)
@@ -30,8 +30,8 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2 + 100, data.height//2,
             image=img)
         for i in range(1, len(data.ePile)):
-            suit = getCardSuit(eCard)
-            rank = getCardRank(eCard)
+            suit = getCardSuit(data.ePile[i])
+            rank = getCardRank(data.ePile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 + 120, data.height//2,
                 image=img)
@@ -44,8 +44,8 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2, data.height//2+100,
             image=img)
         for i in range(1, len(data.sPile)):
-            suit = getCardSuit(sCard)
-            rank = getCardRank(sCard)
+            suit = getCardSuit(data.sPile[i])
+            rank = getCardRank(data.sPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2, data.height//2 + 120,
                 image=img)
@@ -57,9 +57,9 @@ def drawPiles(canvas, data):
         img = getPlayingCardImage(data, rank, suit)
         canvas.create_image(data.width//2 - 100, data.height//2,
             image=img)
-        for i in range(1, len(data.ePile)):
-            suit = getCardSuit(wCard)
-            rank = getCardRank(wCard)
+        for i in range(1, len(data.wPile)):
+            suit = getCardSuit(data.wPile[i])
+            rank = getCardRank(data.wPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 - 120, data.height//2,
                 image=img)
@@ -72,7 +72,7 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2 - 100, data.height//2 -100,
             image=img)
         for i in range(1, len(data.nwPile)):
-            suit = getCardSuit(data.nwcard[i])
+            suit = getCardSuit(data.nwPile[i])
             rank = getCardRank(data.nwPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 - 100, data.height//2
@@ -86,7 +86,7 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2 + 100, data.height//2 - 100,
             image=img)
         for i in range(1, len(data.nePile)):
-            suit = getCardSuit(data.necard[i])
+            suit = getCardSuit(data.nePile[i])
             rank = getCardRank(data.nePile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 + 100, data.height//2 -
@@ -99,7 +99,7 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2 - 100, data.height//2 + 100,
             image=img)
         for i in range(1, len(data.swPile)):
-            suit = getCardSuit(data.swcard[i])
+            suit = getCardSuit(data.swPile[i])
             rank = getCardRank(data.swPile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 - 100, data.height//2 + 
@@ -113,7 +113,7 @@ def drawPiles(canvas, data):
         canvas.create_image(data.width//2 + 100, data.height//2 + 100,
             image=img)
         for i in range(1, len(data.sePile)):
-            suit = getCardSuit(data.secard[i])
+            suit = getCardSuit(data.sePile[i])
             rank = getCardRank(data.sePile[i])
             img = getPlayingCardImage(data, rank, suit)
             canvas.create_image(data.width//2 + 100, data.height//2 +
