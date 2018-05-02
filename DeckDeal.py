@@ -85,4 +85,3 @@ def getCardRank(card): # takes a card and returns it's rank as an integer
             if cardR == "Ace":
                 cardR = 1
     return int(cardR)
-
