@@ -24,10 +24,10 @@ def validPlay(pile, card, data):
             deckColor = "red"
         else: 
             deckColor = "black"
-        if deckColor == playColor:
+        if deckColor == playColor: # fails if same suit color
             return False
         else:
-            if deckRank - 1 != rank:
+            if deckRank - 1 != rank: # fails if not in rank order
                 return False
             else:
                 return True
@@ -157,51 +157,29 @@ def validPlay(pile, card, data):
                     return True
     
 def placeKing(data, pile, card, xy):
-    if "King" not in str(card):
+    if "King" not in str(card): # not a King trying to be put; fail
         return False
     else:
-        if data.humTurn:
-            if pile == 1:
-                if data.nwPile != []:
-                    return False
-                else:
-                    return True
-            elif pile == 3:
-                if data.nePile != []:
-                    return False
-                else:
-                    return True
-            elif pile == 6:
-                if data.swPile != []:
-                    return False
-                else:
-                    return True
+        if pile == 1:
+            if data.nwPile != []: # make sure pile empty
+                return False
             else:
-                if data.sePile != []:
-                    return False
-                else:
-                    return True
-        else:
-            if pile == 1:
-                if data.nwPile != []:
-                    return False
-                else:
-                    return True
-            elif pile == 3:
-                if data.nePile != []:
-                    return False
-                else:
-                    return True
-            elif pile == 6:
-                if data.swPile != []:
-                    return False
-                else:
-                    return True
+                return True
+        elif pile == 3:
+            if data.nePile != []:
+                return False
             else:
-                if data.sePile != []:
-                    return False
-                else:
-                    return True
+                return True
+        elif pile == 6:
+            if data.swPile != []:
+                return False
+            else:
+                return True
+        else: # pile == 8
+            if data.sePile != []:
+                return False
+            else:
+                return True
 
 def validMove(data, pileMove, pilePut): 
 #checks if moving one pile on top of another is legals
