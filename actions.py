@@ -7,8 +7,6 @@ from DeckDeal import *
 def validPlay(pile, card, data):
     suit = getCardSuit(card)
     rank = getCardRank(card)
-    print("suit:" + str(suit))
-    print("rank:" + str(rank))
     reds = ["Hearts", "Diamonds"]
     blacks = ["Clubs", "Spades"]
     playColor = None
@@ -21,19 +19,15 @@ def validPlay(pile, card, data):
             return True
         deckSuit = getCardSuit(data.nPile[-1])
         deckRank = getCardRank(data.nPile[-1])
-        print("Deck suit:" + str(deckSuit))
-        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
-            print("failed on same color 2222")
             return False
         else:
             if deckRank - 1 != rank:
-                print("failed on card rank being one below deck rank 2222")
                 return False
             else:
                 return True
@@ -42,19 +36,15 @@ def validPlay(pile, card, data):
             return True
         deckSuit = getCardSuit(data.wPile[-1])
         deckRank = getCardRank(data.wPile[-1])
-        print("Deck suit:" + str(deckSuit))
-        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
-            print("failed on same color 4444")
             return False
         else:
             if deckRank - 1 != rank:
-                print("failed on card rank being one below deck rank 4444")
                 return False
             else:
                 return True
@@ -63,19 +53,15 @@ def validPlay(pile, card, data):
             return True
         deckSuit = getCardSuit(data.ePile[-1])
         deckRank = getCardRank(data.ePile[-1])
-        print("Deck suit:" + str(deckSuit))
-        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
-            print("failed on same color 55555")
             return False
         else:
             if deckRank - 1 != rank:
-                print("failed on card rank being one below deck rank 5555")
                 return False
             else:
                 return True
@@ -85,19 +71,15 @@ def validPlay(pile, card, data):
             return True
         deckSuit = getCardSuit(data.sPile[-1])
         deckRank = getCardRank(data.sPile[-1])
-        print("Deck suit:" + str(deckSuit))
-        print("deck rank:" + str(deckRank))
         deckColor = None
         if deckSuit in reds:
             deckColor = "red"
         else: 
             deckColor = "black"
         if deckColor == playColor:
-            print("failed on same color 777777")
             return False
         else:
             if deckRank - 1 != rank:
-                print("failed on card rank being one below deck rank 7777")
                 return False
             else:
                 return True
@@ -107,19 +89,15 @@ def validPlay(pile, card, data):
         else:
             deckSuit = getCardSuit(data.nwPile[-1])
             deckRank = getCardRank(data.nwPile[-1])
-            print("Deck suit:" + str(deckSuit))
-            print("deck rank:" + str(deckRank))
             deckColor = None
             if deckSuit in reds:
                 deckColor = "red"
             else: 
                 deckColor = "black"
             if deckColor == playColor:
-                print("failed on same color 1111")
                 return False
             else:
                 if deckRank - 1 != rank:
-                    print("failed on card rank being one below deck rank 11111")
                     return False
                 else:
                     return True
@@ -129,19 +107,15 @@ def validPlay(pile, card, data):
         else:
             deckSuit = getCardSuit(data.nePile[-1])
             deckRank = getCardRank(data.nePile[-1])
-            print("Deck suit:" + str(deckSuit))
-            print("deck rank:" + str(deckRank))
             deckColor = None
             if deckSuit in reds:
                 deckColor = "red"
             else: 
                 deckColor = "black"
             if deckColor == playColor:
-                print("failed on same color 33333")
                 return False
             else:
                 if deckRank - 1 != rank:
-                    print("failed on card rank being one below deck rank 3333")
                     return False
                 else:
                     return True
@@ -151,19 +125,15 @@ def validPlay(pile, card, data):
         else:
             deckSuit = getCardSuit(data.swPile[-1])
             deckRank = getCardRank(data.swPile[-1])
-            print("Deck suit:" + str(deckSuit))
-            print("deck rank:" + str(deckRank))
             deckColor = None
             if deckSuit in reds:
                 deckColor = "red"
             else: 
                 deckColor = "black"
             if deckColor == playColor:
-                print("failed on same color 66666")
                 return False
             else:
                 if deckRank - 1 != rank:
-                    print("failed on card rank being one below deck rank 6666")
                     return False
                 else:
                     return True
@@ -173,19 +143,15 @@ def validPlay(pile, card, data):
         else:
             deckSuit = getCardSuit(data.sePile[-1])
             deckRank = getCardRank(data.sePile[-1])
-            print("Deck suit:" + str(deckSuit))
-            print("deck rank:" + str(deckRank))
             deckColor = None
             if deckSuit in reds:
                 deckColor = "red"
             else: 
                 deckColor = "black"
             if deckColor == playColor:
-                print("failed on same color 8888")
                 return False
             else:
                 if deckRank - 1 != rank:
-                    print("failed on card rank being one below deck rank 888")
                     return False
                 else:
                     return True
@@ -194,73 +160,48 @@ def placeKing(data, pile, card, xy):
     if "King" not in str(card):
         return False
     else:
-    
         if data.humTurn:
             if pile == 1:
                 if data.nwPile != []:
                     return False
                 else:
                     return True
-                    data.nwPile.append(card)
-                    data.playerHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             elif pile == 3:
                 if data.nePile != []:
                     return False
                 else:
                     return True
-                    data.nePile.append(card)
-                    data.playerHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             elif pile == 6:
                 if data.swPile != []:
                     return False
                 else:
                     return True
-                    data.swPile.append(card)
-                    data.playerHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             else:
                 if data.sePile != []:
                     return False
                 else:
                     return True
-                    data.sePile.append(card)
-                    data.playerHand.remove(card)
-                    data.xyTurnCards.remove(xy)
         else:
             if pile == 1:
                 if data.nwPile != []:
                     return False
                 else:
                     return True
-                    data.nwPile.append(card)
-                    data.compHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             elif pile == 3:
                 if data.nePile != []:
                     return False
                 else:
                     return True
-                    data.nePile.append(card)
-                    data.compHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             elif pile == 6:
                 if data.swPile != []:
                     return False
                 else:
                     return True
-                    data.swPile.append(card)
-                    data.compHand.remove(card)
-                    data.xyTurnCards.remove(xy)
             else:
                 if data.sePile != []:
                     return False
                 else:
                     return True
-                    data.sePile.append(card)
-                    data.compHand.remove(card)
-                    data.xyTurnCards.remove(xy)
 
 def validMove(data, pileMove, pilePut): 
 #checks if moving one pile on top of another is legals
@@ -270,6 +211,8 @@ def validMove(data, pileMove, pilePut):
         
     else:
         if pileMove == 2: # moving north pile
+            if data.nPile == []:
+                return False
             bottom = data.nPile[0] # bottom card of the north pile
             bSuit = getCardSuit(bottom)
             bRank = getCardRank(bottom)
@@ -278,7 +221,9 @@ def validMove(data, pileMove, pilePut):
                 bCol = "red"
             else:
                 bCol = "black"
-            if pilePut == 4: # moving to west pile 
+            if pilePut == 4: # moving to west pile
+                if data.wPile == []:
+                    return False
                 top = data.wPile[-1] # top card of the west pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -288,14 +233,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("Same color. 2 > 4.")
                     return False
                 if tRank - 1 != bRank:
-                    print("Not right ranks. 2>4")
                     return False
                 return True
                 
-            if pilePut == 5: # moving to east pile 
+            if pilePut == 5: # moving to east pile
+                if data.ePile == []:
+                    return False
                 top = data.ePile[-1] # top card of east pile 
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -305,14 +250,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("same color. 2 > 5")
                     return False
                 if tRank - 1 != bRank:
-                    print("not right ranks, 2>5")
                     return False
                 return True
         
             if pilePut == 7: # moving to south pile 
+                if data.sPile == []:
+                    return False
                 top = data.sPile[-1] # top card of south pile 
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -322,10 +267,8 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("same color. 2 > 7")
                     return False
                 if tRank - 1 != bRank:
-                    print("not right rank 2 >7")
                     return False
                 return True
             
@@ -351,10 +294,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("same color. 2 > 8")
                             return False
                         if tRank - 1 != bRank:
-                            print("not right rank, 2 >8")
                             return False
                         return True
                     if pilePut == 6: # move to south west pile 
@@ -367,10 +308,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("same color, 2 >6")
                             return False
                         if tRank - 1 != bRank:
-                            print("not right rank, 2>6")
                             return False
                         return True
                     if pilePut == 3: #move to north east pile
@@ -383,10 +322,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("same color 2>3")
                             return False
                         if tRank - 1 != bRank:
-                            print("not right ranks, 2>3")
                             return False
                         return True
                     if pilePut == 1: # move to north west pile
@@ -399,13 +336,13 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("same color 2>1")
                             return False
                         if tRank - 1 != bRank:
-                            print("wrong ranks 2>1")
                             return False
                         return True
         if pileMove == 4: # moving west pile 
+            if data.wPile == []:
+                return False
             bottom = data.wPile[0] # bottom card of the west pile  
             bSuit = getCardSuit(bottom)
             bRank = getCardRank(bottom)
@@ -415,6 +352,8 @@ def validMove(data, pileMove, pilePut):
             else:
                 bCol = "black"
             if pilePut == 2: # moving to north pile 
+                if data.nPile == []:
+                    return False
                 top = data.nPile[-1] # top card of the north pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -424,14 +363,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("sm col 4 >2")
                     return False
                 if tRank - 1 != bRank:
-                    print("wrg rank 4 >2")
                     return False
                 return True
                 
             if pilePut == 5: # moving to east pile
+                if data.ePile == []:
+                    return False
                 top = data.ePile[-1] # top card of the east pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -441,14 +380,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("color 4>5")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 4>5")
                     return False
                 return True
         
             if pilePut == 7: # moving to south pile
+                if data.sPile == []:
+                    return False
                 top = data.sPile[-1] # top card of south pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -458,10 +397,8 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 4>7")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 4>7")
                     return False
                 return True
             
@@ -487,10 +424,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 4>8")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 4>8")
                             return False
                         return True
                     if pilePut == 6: # move to south west pile
@@ -503,10 +438,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 4>6")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 4>6")
                             return False
                         return True
                     if pilePut == 3: #move to north east pile
@@ -519,10 +452,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 4>3")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 4>3")
                             return False
                         return True
                     if pilePut == 1: # move to north west pile
@@ -535,14 +466,14 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 4>1")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 4 >1")
                             return False
                         return True
             
         if pileMove == 5: # moving east pile
+            if data.ePile == []:
+                return False
             bottom = data.ePile[0] # bottom card of the east pile 
             bSuit = getCardSuit(bottom)
             bRank = getCardRank(bottom)
@@ -552,6 +483,8 @@ def validMove(data, pileMove, pilePut):
             else:
                 bCol = "black"
             if pilePut == 4: # moving to west pile 
+                if data.wPile == []:
+                    return False
                 top = data.wPile[-1] # top card of the west pile 
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -561,14 +494,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 5>4")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 5>4")
                     return False
                 return True
                 
             if pilePut == 2: # move to north pile
+                if data.nPile == []:
+                    return False
                 top = data.nPile[-1] # top card of north pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -578,14 +511,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 5>2")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 5>2")
                     return False
                 return True
         
             if pilePut == 7: # move to south pile
+                if data.sPile == []:
+                    return False
                 top = data.sPile[-1] # top card of south pile
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -595,10 +528,8 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 5>7")
                     return False
                 if tRank - 1 != bRank:
-                    print("col 5>7")
                     return False
                 return True
                 
@@ -624,10 +555,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 5>8")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 5>8")
                             return False
                         return True
                     if pilePut == 6: # move to south west pile
@@ -640,10 +569,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 5>6")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 5>6")
                             return False
                         return True
                     if pilePut == 3: # move to north east pile 
@@ -656,10 +583,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 5>3")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 5>3")
                             return False
                         return True
                     if pilePut == 1: # move to north west pile 
@@ -672,14 +597,14 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 5>1")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 5>1")
                             return False
                         return True
                         
         if pileMove == 7: # South pile chosen to move
+            if data.sPile == []:
+                return False
             bottom = data.sPile[0] # bottom card of south pile you're moving 
             bSuit = getCardSuit(bottom) 
             bRank = getCardRank(bottom)
@@ -689,6 +614,8 @@ def validMove(data, pileMove, pilePut):
             else:
                 bCol = "black"
             if pilePut == 4: # move to west pile
+                if data.wPile == []:
+                    return False 
                 top = data.wPile[-1] # top card of the west pile you're moving ON TO
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -698,14 +625,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 7>4")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 7>4")
                     return False
                 return True
                 
-            if pilePut == 5: # move to east pile 
+            if pilePut == 5: # move to east pile
+                if data.ePile == []:
+                    return False
                 top = data.ePile[-1]# top card of the east pile you're moving ON TO
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -715,14 +642,14 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 7>5")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 7>5")
                     return False
                 return True
         
             if pilePut == 2:#move to north pile
+                if data.nPile == []:
+                    return False
                 top = data.nPile[-1]  # top card of the north pile you're moving ON TO
                 tSuit = getCardSuit(top)
                 tRank = getCardRank(top)
@@ -732,10 +659,8 @@ def validMove(data, pileMove, pilePut):
                 else:
                     tCol = "black"
                 if tCol == bCol:
-                    print("col 7>2")
                     return False
                 if tRank - 1 != bRank:
-                    print("rank 7>2")
                     return False
                 return True
             
@@ -761,10 +686,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 7>8")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 7>8")
                             return False
                         return True
                     if pilePut == 6: # move to south west pile
@@ -777,10 +700,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 7>6")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 7>6")
                             return False
                         return True
                     if pilePut == 3: #move to north east pile
@@ -793,10 +714,8 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("col 7>3")
                             return False
                         if tRank - 1 != bRank:
-                            print("rank 7>3")
                             return False
                         return True
                     if pilePut == 1: # move to north west pile 
@@ -809,9 +728,7 @@ def validMove(data, pileMove, pilePut):
                         else:
                             tCol = "black"
                         if tCol == bCol:
-                            print("fail col 7>1")
                             return False
                         if tRank - 1 != bRank:
-                            print("fail rank 7>1")
                             return False
                         return True

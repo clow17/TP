@@ -7,6 +7,41 @@ from drawPiles import *
 
 #######################################
 # COMPUTER PLAYER
+
+def compTurn(data):
+    for i in range(len(data.compHand)):
+        playCard = data.compHand[i]
+        for j in range(1,9):
+            pile = j
+            if (pile == 1 or pile == 3 or pile == 6 or pile == 8) and rank == 13:
+                if placeKing(data, pile, card, xy) == True:
+                    if pile == 1: 
+                        data.nwPile.append(playCard)
+                        data.compHand.remove(card)
+                        data.xyTurnCards.remove(xy)
+                    if pile == 3:
+                        data.nePile.append(card)
+                        if data.humTurn:
+                            data.playerHand.remove(card)
+                        else:
+                            data.compHand.remove(card)
+                        data.xyTurnCards.remove(xy)
+                    if pile == 6:
+                        data.swPile.append(card)
+                        if data.humTurn:
+                            data.playerHand.remove(card)
+                        else:
+                            data.compHand.remove(card)
+                        data.xyTurnCards.remove(xy)
+                    if pile == 8:
+                        data.sePile.append(card)
+                        if data.humTurn:
+                            data.playerHand.remove(card)
+                        else:
+                            data.compHand.remove(card)
+                        data.xyTurnCards.remove(xy)
+            if validPlay(pile, playCard, data):
+                
 #######################################
 
 #######################################
@@ -41,7 +76,7 @@ def humanTurn(action, data):
         if data.compTurn:
             numCards = len(data.playerHand)
             
-        while card-1 < 0 and card-1 > numCards: #makes sure card input is valid
+        while card-1 < 0 or card-1 > numCards: #makes sure card input is valid
             print("Invalid card choice")
             card = int(input("Type in the number for the card you want to put in. From top left to bottom right. Starting from 1.\n")) 
         xy = None
@@ -51,7 +86,6 @@ def humanTurn(action, data):
         else:
             xy = data.xyTurnCards[card-1]
             card = data.compHand[card-1]
-        print(card)
         while pile not in [1,2,3,4,5,6,7,8]:
             print("Invalid pile inputted")
             pile = int(input("Which pile would you like to play your selected card on?\n1 2 3\n4   5\n6 7 8\n"))
@@ -62,9 +96,6 @@ def humanTurn(action, data):
             if placeKing(data, pile, card, xy) == False:
                 print("The pile you selected is invalid. Either you are trying to put a card that is not a king in the corners or there is already a king there.")
             else:
-                print("begin valid play of move king")
-                print(data.xyTurnCards)
-                print()
                 if pile == 1: 
                     data.nwPile.append(card)
                     if data.humTurn:
@@ -72,7 +103,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 3:
                     data.nePile.append(card)
                     if data.humTurn:
@@ -80,7 +110,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 6:
                     data.swPile.append(card)
                     if data.humTurn:
@@ -88,7 +117,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 8:
                     data.sePile.append(card)
                     if data.humTurn:
@@ -96,14 +124,10 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
         else: #just regular move, not a king move
             if validPlay(pile, card, data) == False:
                 print("That's not a valid move.")
             else:
-                print("begin valid play not a king")
-                print(data.xyTurnCards)
-                print()
                 if pile == 2:
                     data.nPile.append(card)
                     if data.humTurn:
@@ -111,7 +135,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 4:
                     data.wPile.append(card)
                     if data.humTurn:
@@ -119,7 +142,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 5:
                     data.ePile.append(card)
                     if data.humTurn:
@@ -127,7 +149,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 7:
                     data.sPile.append(card)
                     if data.humTurn:
@@ -135,7 +156,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 1:
                     data.nwPile.append(card)
                     if data.humTurn:
@@ -143,7 +163,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 3:
                     data.nePile.append(card)
                     if data.humTurn:
@@ -151,7 +170,6 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 6:
                     data.swPile.append(card)
                     if data.humTurn:
@@ -159,15 +177,12 @@ def humanTurn(action, data):
                     else:
                         data.compHand.remove(card)
                     data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 if pile == 8:
                     data.sePile.append(card)
                     if data.humTurn:
                         data.playerHand.remove(card)
                     else:
                         data.compHand.remove(card)
-                    data.xyTurnCards.remove(xy)
-                    print(data.xyTurnCards)
                 
                     
     if action == "move": #move one deck on top of another deck
@@ -177,15 +192,12 @@ def humanTurn(action, data):
             if deckTop == 2: #the deck you're putting on top/ From 2-North  
                 if deckBot == 4: #the deck under the one you're moving/ to 4-west
                     data.wPile += data.nPile
-                    print(data.wPile)
                     data.nPile = []
                 if deckBot == 5: # to 5-east
                     data.ePile += data.nPile
-                    print(data.ePile)
                     data.nPile = []
                 if deckBot == 7: # to 7-south
                     data.sPile += data.nPile
-                    print(data.sPile)
                     data.nPile = []
                 
                 if deckBot == 1: # to 1 - north west
@@ -212,15 +224,12 @@ def humanTurn(action, data):
             if deckTop == 4: # From 4 - west 
                 if deckBot == 2: # to 2 - north
                     data.nPile += data.wPile
-                    print(data.nPile)
                     data.wPile = []
                 if deckBot == 5: # to 5 - east
                     data.ePile += data.wPile
-                    print(data.ePile)
                     data.wPile = []
                 if deckBot == 7: # to 7 - south
                     data.sPile += data.wPile
-                    print(data.sPile)
                     data.wPile = []
 
                 if deckBot == 1: # to 1 - north west
@@ -247,15 +256,12 @@ def humanTurn(action, data):
             if deckTop == 5: # from 5 - east
                 if deckBot == 2: # to 2 - north
                     data.nPile += data.ePile
-                    print(data.nPile)
                     data.ePile = [] 
                 if deckBot == 4: # to 4 - west
                     data.wPile += data.ePile
-                    print(data.wPile)
                     data.ePile = [] 
                 if deckBot == 7: # to 7 - south
                     data.sPile += data.ePile
-                    print(data.sPile)
                     data.ePile = [] 
                 
                 if deckBot == 1: # to 1 - north west
@@ -282,15 +288,12 @@ def humanTurn(action, data):
             if deckTop == 7: # from 7 - south
                 if deckBot == 2: # to 2 - north
                     data.nPile += data.sPile
-                    print(data.nPile)
                     data.sPile = []
                 if deckBot == 4: # to 4 - west
                     data.wPile += data.sPile
-                    print(data.wPile)
                     data.sPile = []
                 if deckBot == 5: # to 5 - east
                     data.ePile += data.sPile
-                    print(data.ePile)
                     data.sPile = []
                 
                 if deckBot == 1: # to 1 - north west
@@ -321,31 +324,20 @@ def humanTurn(action, data):
         print()
         if data.humTurn: #increase round at end of hum turn
             data.playerRound += 1
-            print("player round added:" + str(data.playerRound))
         else: # increase round at end of comp turn
             data.compRound += 1
-            print("comp round added:" + str(data.compRound))
-       
-        print("before: " + str(data.humTurn))
-        print("before: " + str(data.compTurn))
         data.humTurn = not data.humTurn
         data.compTurn = not data.compTurn
-        print("after: " + str(data.humTurn))
-        print("after: " + str(data.compTurn))
-        print("Turns have been changed")
         data.xyTurnCards = getTurnCoords(data) #change xyTurnCard coords to the ones on the next person
-        print(data.xyTurnCards)
         if data.compTurn: # if comp turn
             if data.compRound != 0: 
         #after first round you get delt a single card every round @ begin
                 addCard = PlayingCard.dealCard(data.gameDeck)
-                print("card has been added to comp hand/player2")
                 data.compHand.append(addCard)
                 data.xyTurnCards = getTurnCoords(data)
         else:
             if data.playerRound != 0:
                 addCard = PlayingCard.dealCard(data.gameDeck)
-                print("card has been added to player hand/player1")
                 data.playerHand.append(addCard)
                 data.xyTurnCards = getTurnCoords(data)
                     
@@ -381,8 +373,6 @@ def resetGame(data):
     data.gameDeck = PlayingCard.getDeck()
     data.playerHand = PlayingCard.dealHand(data.gameDeck)
     data.compHand = PlayingCard.dealHand(data.gameDeck)
-    print("player:" + str(data.playerHand))
-    print("comp: " + str(data.compHand))
     data.nPile = [PlayingCard.dealCard(data.gameDeck)] #cards to display on north deck
     data.ePile = [PlayingCard.dealCard(data.gameDeck)]   
     data.sPile = [PlayingCard.dealCard(data.gameDeck)]   
@@ -451,11 +441,10 @@ def mousePressed(event, canvas, data):
 
 def keyPressed(event, data):
     if event.keysym == "p": # enter game mode
-        print("p was pressed")
         data.home = False
         data.game = True
         data.rules = False
-    if event.keysym == "h": # enter rules screen
+    if event.keysym == "r": # enter rules screen
         data.home = False
         data.game = False
         data.rules = True
@@ -490,10 +479,8 @@ def keyPressed(event, data):
             action = input("What do you want to do? \nTo play a card enter, 'play'. \nTo move a pile on the table enter, 'move'. \nTo knock and end your turn enter, 'knock'.\n")
             action = action.lower()
         if data.compTurn: # who's ever turn 
-            print("Computer/player 2 turn")
             humanTurn(action, data)
         else: 
-            print("human/player1")
             humanTurn(action, data)
         if data.playerHand == []: #if either player has 0 cards then they win
             data.gameOver = True
@@ -509,17 +496,6 @@ def keyPressed(event, data):
             data.rules = False
             data.winner = "Computer/Player 2"
         
-        print("north: " + str(data.nPile))
-        print("east: " + str(data.ePile))
-        print("south: " + str(data.sPile))
-        print("west: " + str(data.wPile))
-        print("north west: " + str(data.nwPile))
-        print("north east: " + str(data.nePile))
-        print("south west: " + str(data.swPile))
-        print("south east: " + str(data.sePile))
-        print("play hand: " + str(data.playerHand))
-        print("comp hand: " + str(data.compHand))
-        
         if data.gameOver:
             print("The winner is: " + data.winner) 
             ans = input("Would you like to play again? yes or no?")
@@ -532,25 +508,41 @@ def keyPressed(event, data):
             if ans == "yes":
                 resetGame(data)
             else:
-                return 
+                root.destroy() 
 
 def timerFired(data):
     pass
 
 def redrawAll(canvas, data):
     if data.home: #home screen 
-        canvas.create_rectangle(0, 0, data.width, data.height, fill="white")
+        canvas.create_rectangle(0, 0, data.width, data.height, fill="#b3b3ff")
         welX = data.width//2
         welY = data.height//4
         canvas.create_text(welX, welY, fill="black", 
-            text="Welcome to \nKings in the Corner", font=" Arial 50 bold")
+            text="Welcome to Kings\n     in the Corner", font=" Arial 50 bold")
         gameX = data.width//2
         gameY = data.height//2
         canvas.create_text(gameX, gameY, fill="black", 
-            text="To start the game press 'p'", font=" Arial 30 bold")
+            text="To start the game press 'p'.", font=" Arial 30 bold")
+        canvas.create_text(gameX, gameY + 50, fill="black", text="To see the game rules press 'r'.", font="Arial 30 bold")
     if data.rules: # rules screen 
         canvas.create_rectangle(0, 0, data.width, data.height, fill="black")
         canvas.create_text(data.width, data.height, text="Rules screen", fill="black")
+        obj = ("The objective of the game is to get rid of all your cards before the other player.") 
+        gamePlay = ("At the start of the game 8 cards are dealt to each player. The rest of the deck is placed in the center of the table as\na stockpile. Then the top 4 cards are flipped over and placed north, east, south and west of the stockpile, these piles are\nreferred to as the foundational piles. Who's ever turn it is first will make as many valid moves as possible with the cards\nin their hand and 'knock' when they are finished. After the first round each player is deal a single card at the beginning\nof their turn.")
+        cardPlay = ("Play a card or multiple cards on a foundational pile. Card play works a little like solitare in that you can only\nplay a card on another card if that card if ranked one lower that the one you're playing on top of. They also\nhave to be different suit colors. So if there is a black card on the top of the foundational pile you wish to put\nyour card, your card must be red and vise versa. Ex)You can play a '7 of Hearts' only on an '8 of Clubs' or\nan '8 of Spades'. \n\nAces are considered the lowest card and therefore no cards can be played on top of an ace.\n\nYou can also literally play a King in the corner. In the north east, north west, south west and south east\ndirections of the stockpile. Only Kings are allowed to be placed in the corners. Once a King has been\nplaced in the corner, players can then lay other cards on the pile as if it were another foundational pile.\nMoving an entire foundational pile onto another pile is also an option. If the move is valid play, you can make\nthe move and afterwards place any card from your hand in that spot.")
+        gameSpecs = ("To initiate a play press the space bar. The consol will prompt you to type in 'play' to play a card,\n 'move' to move one pile to another, or 'knock' and end your turn. To see the rules of the game at\nany time press 'r'. To reset the game press 'z'. To play press 'p'.")  
+        canvas.create_text(450, 50, text="How to Play Kings in the Corner", font="Arial 50  bold", fill="#80ccff")
+        canvas.create_text(50, 120, text="Objective:", font="Arial 18 underline", fill="#ff9933")
+        canvas.create_text(350, 115, text=obj, font="Arial 15", fill="white", anchor=N)
+        canvas.create_text(55, 165, text="Game play:", font="Arial 18 underline", fill="#ff9933", anchor=N)
+        canvas.create_text(500, 170, text=gamePlay, font="Arial 15", fill="white", anchor=N)
+        canvas.create_text(85, 290, text="How to Play Cards:", font="Arial 18 underline", fill="#ff9933", anchor=N)
+        canvas.create_text(170, 295, text=cardPlay, font="Arial 15", fill="white",anchor=NW)
+        canvas.create_text(10, 550, text="Game specific directions:", font="Arial 18 underline", fill="#ff9933", anchor=NW)
+        canvas.create_text(220, 555, text=gameSpecs, font="Arial 15", fill="white", anchor=NW) 
+        canvas.create_text(450, 700, text="Happy playing!!", font="Arial 50", fill="#ff0066")
+        canvas.create_text(450, 750, text="For my homie Hannah.", font="Arial 8", fill="white")
         
     if  data.game: # game state
             
@@ -673,10 +665,6 @@ def redrawAll(canvas, data):
                     img = getPlayingCardImage(data, 1, "Xtras")
                     canvas.create_image(data.margin + (i*data.cardWidth), yplace,
                         image=img)
-   
-    if data.gameOver: # prints the winner 
-        txt = "%s is the winner! Congratulations.%(data.winner)"
-        canvas.create_text(data.width//2, data.height-50, text=txt, fill="black", font="Arial 50 bold")
         
 ####################################
 # use the run function as-is
